@@ -22,7 +22,7 @@ export const SelectedProductItem = ({ onCart }: SelectedItemProps) => {
             {selectedProductName}
           </p>
           <div className="flex justify-center items-center border-custom-rose-400 border rounded-full h-5 w-5 mt-3 hover:invert">
-            <img src="/icon-remove-item.svg" alt="Remove Item" />
+            <img src="/assets/images/icon-remove-item.svg" alt="Remove Item" />
           </div>
         </div>
         <div className="flex flex-row justify-start items-center gap-4 mb-4">

@@ -39,10 +39,7 @@ export const SelectedProductCart = ({ onCart }: SelectedProductCartProps) => {
           <p className="font-bold text-custom-rose-900 text-2xl">{`$${formattedTotal}`}</p>
         </div>
         <div className="h-15 flex flex-row justify-center items-center gap-2 bg-custom-rose-50 rounded-lg mb-6">
-          <img
-            src="/public/assets/images/icon-carbon-neutral.svg"
-            alt="Carbon Neutral Icon"
-          />
+          <img src="/icon-carbon-neutral.svg" alt="Carbon Neutral Icon" />
           <p className="text-custom-rose-900 text-sm">
             This is a{" "}
             <span className="font-semibold text-custom-rose-900">

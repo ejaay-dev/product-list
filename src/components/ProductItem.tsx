@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { EmptyCart } from "./EmptyCart"
 import { SelectedProductCart } from "./SelectedProductCart"
 
 interface ProductItemProps {
   productName: string
   productDescription: string
-  productPrice: string
+  productPrice: number
 }
 
 export const ProductItem = ({
@@ -16,31 +16,22 @@ export const ProductItem = ({
   const [isSelectedDessert, setIsSelectedDessert] = useState<boolean>(false)
   const [selectedProductQuantity, setSelectedProductQuantity] =
     useState<number>(0)
-  const [onCart, setOnCart] = useState<{
-    productName: string
-    productPrice: string
-    quantity: number
-  }>({ productName: "", productPrice: "", quantity: 0 })
+
+  // Derived the onCart object based on product name, price, and quantity
+  // The state onCart is no longer in a separate state, this reduce unnecessary updates and re-renders
+  const onCart = {
+    productName,
+    productPrice,
+    quantity: selectedProductQuantity,
+  }
 
   const handleAddToCart = () => {
     setIsSelectedDessert(true)
     setSelectedProductQuantity(1)
-    setOnCart({
-      productName: productName,
-      productPrice: productPrice,
-      quantity: 1,
-    })
   }
 
   const handleIncrement = () => {
-    setSelectedProductQuantity((prevQuantity) => {
-      const newQuantity = prevQuantity + 1
-      setOnCart((prevCart) => ({
-        ...prevCart,
-        quantity: newQuantity,
-      }))
-      return newQuantity
-    })
+    setSelectedProductQuantity((prevQuantity) => prevQuantity + 1)
   }
 
   const handleDecrement = () => {
@@ -49,13 +40,11 @@ export const ProductItem = ({
       if (newQuantity === 0) {
         setIsSelectedDessert(false)
       }
-      setOnCart((prevCart) => ({
-        ...prevCart,
-        quantity: newQuantity,
-      }))
       return newQuantity
     })
   }
+
+  const formattedProductPrice = productPrice.toFixed(2)
 
   return (
     <>
@@ -128,7 +117,7 @@ export const ProductItem = ({
           <p className="text-custom-rose-900 font-semibold">
             {productDescription}
           </p>
-          <p className="text-custom-red font-semibold">{`$ ${productPrice}`}</p>
+          <p className="text-custom-red font-semibold">{`$ ${formattedProductPrice}`}</p>
         </div>
       </div>
       {isSelectedDessert ? (

@@ -2,13 +2,18 @@ interface SelectedItemProps {
   onCart: {
     selectedProductName: string
     selectedProductQuantity: number
-    selectedProductPrice: string
+    selectedProductPrice: number
   }
 }
 
 export const SelectedProductItem = ({ onCart }: SelectedItemProps) => {
   const { selectedProductName, selectedProductPrice, selectedProductQuantity } =
     onCart
+
+  const selectedItemTotal = selectedProductPrice * selectedProductQuantity
+  const selectedItemFormattedTotal = selectedItemTotal.toFixed(2)
+  const selectedProductFormattedPrice = selectedProductPrice.toFixed(2)
+
   return (
     <>
       <div className="flex flex-col">
@@ -28,9 +33,9 @@ export const SelectedProductItem = ({ onCart }: SelectedItemProps) => {
             {`${selectedProductQuantity}x`}
           </p>
           <p className="text-custom-rose-500 font-normal">
-            {`@ $${selectedProductPrice}`}
+            {`@ $${selectedProductFormattedPrice}`}
           </p>
-          <p className="text-custom-rose-500 font-semibold">{`$${selectedProductPrice}`}</p>
+          <p className="text-custom-rose-500 font-semibold">{`$${selectedItemFormattedTotal}`}</p>
         </div>
         <hr className="border-custom-rose-100" />
       </div>

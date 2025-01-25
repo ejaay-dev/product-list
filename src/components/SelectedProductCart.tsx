@@ -3,13 +3,19 @@ import { SelectedProductItem } from "./SelectedProductItem"
 interface SelectedProductCartProps {
   onCart: {
     productName: string
-    productPrice: string
+    productPrice: number
     quantity: number
   }
 }
 
 export const SelectedProductCart = ({ onCart }: SelectedProductCartProps) => {
   const { productName, productPrice, quantity } = onCart
+
+  // Compute the order total
+  const ordersTotal = productPrice * quantity
+
+  // Format to two decimal places
+  const formattedTotal = ordersTotal.toFixed(2)
 
   return (
     <>
@@ -30,7 +36,7 @@ export const SelectedProductCart = ({ onCart }: SelectedProductCartProps) => {
         </div>
         <div className="flex flex-row justify-between items-center mb-6">
           <p className="text-custom-rose-900">Order Total</p>
-          <p className="font-bold text-custom-rose-900 text-2xl">{0.0}</p>
+          <p className="font-bold text-custom-rose-900 text-2xl">{`$${formattedTotal}`}</p>
         </div>
         <div className="h-15 flex flex-row justify-center items-center gap-2 bg-custom-rose-50 rounded-lg mb-6">
           <img

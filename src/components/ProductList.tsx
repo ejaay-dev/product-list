@@ -7,7 +7,7 @@ export const ProductList = () => {
         <ProductItem
           productName="Crème Brûlée"
           productDescription="Vanilla Bean Crème Brûlée"
-          productPrice="7.00"
+          productPrice={7.0}
         />
       </div>
     </>

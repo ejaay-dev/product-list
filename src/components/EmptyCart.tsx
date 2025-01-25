@@ -4,7 +4,7 @@ export const EmptyCart = () => {
       <>
         <div className="flex flex-col justify-center font-redhat bg-white pb-10 rounded-xl">
           <div className="m-6">
-            <p className="font-bold text-custom-red text-xl ">Your Cart ({})</p>
+            <p className="font-bold text-custom-red text-xl ">Your Cart (0)</p>
           </div>
           <div className="flex flex-col items-center">
             <img

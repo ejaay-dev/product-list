@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { EmptyCart } from "./EmptyCart"
+import { SelectedProductCart } from "./SelectedProductCart"
 
 interface ProductItemProps {
   productName: string
@@ -11,36 +13,61 @@ export const ProductItem = ({
   productDescription,
   productPrice,
 }: ProductItemProps) => {
-  const [isSelectedDessert, setIsSelectedDesssert] = useState<boolean>(false)
+  const [isSelectedDessert, setIsSelectedDessert] = useState<boolean>(false)
   const [selectedProductQuantity, setSelectedProductQuantity] =
     useState<number>(0)
+  const [onCart, setOnCart] = useState<{
+    productName: string
+    productPrice: string
+    quantity: number
+  }>({ productName: "", productPrice: "", quantity: 0 })
 
   const handleAddToCart = () => {
-    setIsSelectedDesssert(true)
+    setIsSelectedDessert(true)
     setSelectedProductQuantity(1)
+    setOnCart({
+      productName: productName,
+      productPrice: productPrice,
+      quantity: 1,
+    })
   }
 
   const handleIncrement = () => {
-    setSelectedProductQuantity(selectedProductQuantity + 1)
+    setSelectedProductQuantity((prevQuantity) => {
+      const newQuantity = prevQuantity + 1
+      setOnCart((prevCart) => ({
+        ...prevCart,
+        quantity: newQuantity,
+      }))
+      return newQuantity
+    })
   }
 
   const handleDecrement = () => {
-    setSelectedProductQuantity(selectedProductQuantity - 1)
-    if (selectedProductQuantity === 1) {
-      setIsSelectedDesssert(false)
-    }
+    setSelectedProductQuantity((prevQuantity) => {
+      const newQuantity = prevQuantity - 1
+      if (newQuantity === 0) {
+        setIsSelectedDessert(false)
+      }
+      setOnCart((prevCart) => ({
+        ...prevCart,
+        quantity: newQuantity,
+      }))
+      return newQuantity
+    })
   }
 
   return (
     <>
-      <div className="flex flex-col justify-center font-redhat">
+      <div
+        className={`flex flex-col justify-center font-redhat bg-white rounded-xl p-4 mb-5 ${
+          isSelectedDessert ? "border-2 border-custom-red" : ""
+        }`}
+      >
         <div className="relative flex flex-col items-center mb-10">
           <img
             src="/public/assets/images/image-creme-brulee-mobile.jpg"
-            alt="Crème Brûlée"
-            className={`rounded-xl ${
-              isSelectedDessert ? "border-2 border-custom-red" : ""
-            }`}
+            alt={`${productName} image`}
           />
           <div className="absolute bottom-[-20px]">
             {isSelectedDessert ? (
@@ -104,6 +131,11 @@ export const ProductItem = ({
           <p className="text-custom-red font-semibold">{`$ ${productPrice}`}</p>
         </div>
       </div>
+      {isSelectedDessert ? (
+        <SelectedProductCart onCart={onCart} />
+      ) : (
+        <EmptyCart />
+      )}
     </>
   )
 }

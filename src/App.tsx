@@ -1,6 +1,5 @@
 import { PageLabel } from "./components/PageLabel"
-import { Product } from "./components/Product"
-import { SelectedProductCart } from "./components/SelectedProductCart"
+import { ProductList } from "./components/ProductList"
 
 function App() {
   return (
@@ -10,10 +9,7 @@ function App() {
           <PageLabel pageLabel="Desserts" />
         </section>
         <section>
-          <Product />
-        </section>
-        <section>
-          <SelectedProductCart />
+          <ProductList />
         </section>
       </main>
     </>

@@ -1,6 +1,6 @@
 import { ProductItem } from "./ProductItem"
 
-export const Product = () => {
+export const ProductList = () => {
   return (
     <>
       <div className="m-6">

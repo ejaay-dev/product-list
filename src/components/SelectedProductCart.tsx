@@ -1,18 +1,52 @@
-export const SelectedProductCart = () => {
+import { SelectedProductItem } from "./SelectedProductItem"
+
+interface SelectedProductCartProps {
+  onCart: {
+    productName: string
+    productPrice: string
+    quantity: number
+  }
+}
+
+export const SelectedProductCart = ({ onCart }: SelectedProductCartProps) => {
+  const { productName, productPrice, quantity } = onCart
+
   return (
     <>
-      <div className="flex flex-col justify-center font-redhat bg-white m-6 pb-10 rounded-xl">
-        <div className="m-6">
-          <p className="font-bold text-custom-red text-xl ">Your Cart ({})</p>
-        </div>
-        <div className="flex flex-col items-center">
-          <img
-            src="/public/assets/images/illustration-empty-cart.svg"
-            alt="Empty Cart"
-          />
-          <p className="text-xs text-custom-rose-500 font-semibold ml-6 mr-6 mt-4">
-            Your added items will appear here
+      <div className="flex flex-col justify-center font-redhat bg-white rounded-xl p-6 shadow">
+        <div className="mb-6 mt-2">
+          <p className="font-bold text-custom-red text-xl ">
+            Your Cart ({quantity})
           </p>
+        </div>
+        <div className="flex flex-col mb-10">
+          <SelectedProductItem
+            onCart={{
+              selectedProductName: productName,
+              selectedProductPrice: productPrice,
+              selectedProductQuantity: quantity,
+            }}
+          />
+        </div>
+        <div className="flex flex-row justify-between items-center mb-6">
+          <p className="text-custom-rose-900">Order Total</p>
+          <p className="font-bold text-custom-rose-900 text-2xl">{0.0}</p>
+        </div>
+        <div className="h-15 flex flex-row justify-center items-center gap-2 bg-custom-rose-50 rounded-lg mb-6">
+          <img
+            src="/public/assets/images/icon-carbon-neutral.svg"
+            alt="Carbon Neutral Icon"
+          />
+          <p className="text-custom-rose-900 text-sm">
+            This is a{" "}
+            <span className="font-semibold text-custom-rose-900">
+              carbon-neutral
+            </span>{" "}
+            delivery
+          </p>
+        </div>
+        <div className="h-14 w-full flex flex-row justify-center items-center bg-custom-red rounded-4xl hover:bg-[#962C0C]">
+          <p className="text-custom-rose-100 font-medium">Confirm Order</p>
         </div>
       </div>
     </>

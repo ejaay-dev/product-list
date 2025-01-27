@@ -30,7 +30,7 @@ export const ProductItem = ({
     const screenWidth = window.innerWidth
     if (screenWidth < 768) return image.mobile
     if (screenWidth < 1024) return image.tablet
-    return image.desktop
+    if (screenWidth >= 1024) return image.desktop
   }
 
   const imageSrc = getImageByScreenSize(productImage)
@@ -47,6 +47,7 @@ export const ProductItem = ({
     setIsSelectedDessert(true)
     setSelectedProductQuantity(1)
     console.log(`Selected Product: ${productName}`)
+    console.log({ productName, productCategory, productPrice, imageSrc })
   }
 
   const handleIncrement = () => {

@@ -1,3 +1,4 @@
+import { EmptyCart } from "./components/EmptyCart"
 import { PageLabel } from "./components/PageLabel"
 import { ProductList } from "./components/ProductList"
 
@@ -9,6 +10,9 @@ function App() {
           <PageLabel pageLabel="Desserts" />
         </section>
         <section>
+          <EmptyCart />
+        </section>
+        <section className="flex-1 overflow-y-auto">
           <ProductList />
         </section>
       </main>

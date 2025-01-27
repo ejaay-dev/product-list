@@ -1,33 +1,52 @@
 import { useState } from "react"
-import { EmptyCart } from "./EmptyCart"
-import { SelectedProductCart } from "./SelectedProductCart"
+// import { EmptyCart } from "./EmptyCart"
+// import { SelectedProductCart } from "./SelectedProductCart"
+
+interface ProductImage {
+  thumbnail: string
+  mobile: string
+  tablet: string
+  desktop: string
+}
 
 interface ProductItemProps {
   productName: string
-  productDescription: string
+  productCategory: string
   productPrice: number
+  productImage: ProductImage
 }
 
 export const ProductItem = ({
   productName,
-  productDescription,
+  productCategory,
   productPrice,
+  productImage,
 }: ProductItemProps) => {
   const [isSelectedDessert, setIsSelectedDessert] = useState<boolean>(false)
   const [selectedProductQuantity, setSelectedProductQuantity] =
     useState<number>(0)
 
+  const getImageByScreenSize = (image: ProductImage) => {
+    const screenWidth = window.innerWidth
+    if (screenWidth < 768) return image.mobile
+    if (screenWidth < 1024) return image.tablet
+    return image.desktop
+  }
+
+  const imageSrc = getImageByScreenSize(productImage)
+
   // Derived the onCart object based on product name, price, and quantity
   // The state onCart is no longer in a separate state, this reduce unnecessary updates and re-renders
-  const onCart = {
-    productName,
-    productPrice,
-    quantity: selectedProductQuantity,
-  }
+  // const onCart = {
+  //   productName,
+  //   productPrice,
+  //   quantity: selectedProductQuantity,
+  // }
 
   const handleAddToCart = () => {
     setIsSelectedDessert(true)
     setSelectedProductQuantity(1)
+    console.log(`Selected Product: ${productName}`)
   }
 
   const handleIncrement = () => {
@@ -54,10 +73,7 @@ export const ProductItem = ({
         }`}
       >
         <div className="relative flex flex-col items-center mb-10">
-          <img
-            src="/assets/images/image-creme-brulee-mobile.jpg"
-            alt={`${productName} image`}
-          />
+          <img src={imageSrc} alt={`${productName} image`} />
           <div className="absolute bottom-[-20px]">
             {isSelectedDessert ? (
               <div className="flex flex-row justify-around items-center gap-2 border border-custom-rose-500 w-40 h-10 bg-custom-red rounded-3xl">
@@ -66,7 +82,7 @@ export const ProductItem = ({
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
+                    strokeWidth="2"
                     width="16"
                     height="16"
                     className="h-5 w-5 border border-white rounded-full cursor-pointer text-white hover:text-custom-red hover:bg-white"
@@ -83,7 +99,7 @@ export const ProductItem = ({
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
+                    strokeWidth="2"
                     width="16"
                     height="16"
                     className="h-5 w-5 border border-white rounded-full cursor-pointer text-white hover:text-custom-red hover:bg-white"
@@ -113,18 +129,16 @@ export const ProductItem = ({
         </div>
 
         <div className="flex flex-col justify-center items-start gap-0">
-          <p className="text-custom-rose-500">{productName}</p>
-          <p className="text-custom-rose-900 font-semibold">
-            {productDescription}
-          </p>
+          <p className="text-custom-rose-500">{productCategory}</p>
+          <p className="text-custom-rose-900 font-semibold">{productName}</p>
           <p className="text-custom-red font-semibold">{`$ ${formattedProductPrice}`}</p>
         </div>
       </div>
-      {isSelectedDessert ? (
+      {/* {isSelectedDessert ? (
         <SelectedProductCart onCart={onCart} />
       ) : (
         <EmptyCart />
-      )}
+      )} */}
     </>
   )
 }

@@ -1,13 +1,20 @@
 import { useState } from "react"
 import { EmptyCart } from "./components/EmptyCart"
 import { ProductList } from "./components/ProductList"
+import { SelectedProductCart } from "./components/SelectedProductCart"
 
 function App() {
   const [productCart, setProductCart] = useState<
-    { productName: string; productPrice: number; quantity: number }[]
+    {
+      productId: string
+      productName: string
+      productPrice: number
+      quantity: number
+    }[]
   >([])
 
   const handleAddToCart = (product: {
+    productId: string
     productName: string
     productPrice: number
     quantity: number
@@ -51,14 +58,7 @@ function App() {
           </article>
           <aside className="w-full md:w-[600px] lg:w-[200px] xl:w-[400px]">
             {productCart.length > 0 ? (
-              <ul>
-                {productCart.map((item) => (
-                  <li key={item.productName}>
-                    <strong>{item.productName}</strong> - {item.quantity} x $
-                    {item.productPrice}
-                  </li>
-                ))}
-              </ul>
+              <SelectedProductCart productCart={productCart} />
             ) : (
               <EmptyCart />
             )}

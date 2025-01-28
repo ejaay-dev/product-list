@@ -1,5 +1,6 @@
 interface SelectedItemProps {
   onCart: {
+    selectedProductId: string
     selectedProductName: string
     selectedProductQuantity: number
     selectedProductPrice: number

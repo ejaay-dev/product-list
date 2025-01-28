@@ -1,6 +1,4 @@
 import { useState } from "react"
-// import { EmptyCart } from "./EmptyCart"
-// import { SelectedProductCart } from "./SelectedProductCart"
 
 interface ProductImage {
   thumbnail: string
@@ -10,6 +8,7 @@ interface ProductImage {
 }
 
 interface ProductItemProps {
+  productId: string
   productName: string
   productCategory: string
   productPrice: number
@@ -42,14 +41,6 @@ export const ProductItem = ({
   }
 
   const imageSrc = getImageByScreenSize(productImage)
-
-  // Derived the onCart object based on product name, price, and quantity
-  // The state onCart is no longer in a separate state, this reduce unnecessary updates and re-renders
-  // const onCart = {
-  //   productName,
-  //   productPrice,
-  //   quantity: selectedProductQuantity,
-  // }
 
   const handleAddToCart = () => {
     setIsSelectedDessert(true)

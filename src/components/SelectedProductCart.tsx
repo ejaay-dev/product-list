@@ -1,18 +1,28 @@
 import { SelectedProductItem } from "./SelectedProductItem"
 
 interface SelectedProductCartProps {
-  onCart: {
+  productCart: {
+    productId: string
     productName: string
     productPrice: number
     quantity: number
-  }
+  }[]
 }
 
-export const SelectedProductCart = ({ onCart }: SelectedProductCartProps) => {
-  const { productName, productPrice, quantity } = onCart
+export const SelectedProductCart = ({
+  productCart,
+}: SelectedProductCartProps) => {
+  // Computation for the cart total quantity
+  const cartTotal = productCart.reduce(
+    (length, item) => length + item.quantity,
+    0
+  )
 
-  // Compute the order total
-  const ordersTotal = productPrice * quantity
+  // Computation for the orders total
+  const ordersTotal = productCart.reduce(
+    (total, item) => total + item.productPrice * item.quantity,
+    0
+  )
 
   // Format to two decimal places
   const formattedTotal = ordersTotal.toFixed(2)
@@ -22,17 +32,21 @@ export const SelectedProductCart = ({ onCart }: SelectedProductCartProps) => {
       <div className="flex flex-col justify-center font-redhat bg-white rounded-xl p-6 shadow">
         <div className="mb-6 mt-2">
           <p className="font-bold text-custom-red text-xl ">
-            Your Cart ({quantity})
+            Your Cart ({cartTotal})
           </p>
         </div>
         <div className="flex flex-col mb-10">
-          <SelectedProductItem
-            onCart={{
-              selectedProductName: productName,
-              selectedProductPrice: productPrice,
-              selectedProductQuantity: quantity,
-            }}
-          />
+          {productCart.map((item) => (
+            <SelectedProductItem
+              key={item.productId}
+              onCart={{
+                selectedProductId: item.productId,
+                selectedProductName: item.productName,
+                selectedProductPrice: item.productPrice,
+                selectedProductQuantity: item.quantity,
+              }}
+            />
+          ))}
         </div>
         <div className="flex flex-row justify-between items-center mb-6">
           <p className="text-custom-rose-900">Order Total</p>

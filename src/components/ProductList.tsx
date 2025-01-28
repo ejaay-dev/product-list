@@ -56,6 +56,7 @@ export const ProductList = ({ onAddToCart, onUpdateQuantity }: any) => {
             {products.map((product) => (
               <li key={product.id} className="mb-4 last:mb-0">
                 <ProductItem
+                  productId={product.id}
                   productImage={product.image}
                   productCategory={product.category}
                   productName={product.name}

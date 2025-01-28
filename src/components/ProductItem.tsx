@@ -14,6 +14,12 @@ interface ProductItemProps {
   productCategory: string
   productPrice: number
   productImage: ProductImage
+  onAddToCart: (product: {
+    productName: string
+    productPrice: number
+    quantity: number
+  }) => void
+  onUpdateQuantity: (productName: string, quantity: number) => void
 }
 
 export const ProductItem = ({
@@ -21,6 +27,8 @@ export const ProductItem = ({
   productCategory,
   productPrice,
   productImage,
+  onAddToCart,
+  onUpdateQuantity,
 }: ProductItemProps) => {
   const [isSelectedDessert, setIsSelectedDessert] = useState<boolean>(false)
   const [selectedProductQuantity, setSelectedProductQuantity] =
@@ -46,21 +54,23 @@ export const ProductItem = ({
   const handleAddToCart = () => {
     setIsSelectedDessert(true)
     setSelectedProductQuantity(1)
-    console.log(`Selected Product: ${productName}`)
-    console.log({ productName, productCategory, productPrice, imageSrc })
+    onAddToCart({ productName, productPrice, quantity: 1 })
+    // console.log(`Selected Product: ${productName}`)
+    // console.log({ productName, productCategory, productPrice, imageSrc })
   }
 
   const handleIncrement = () => {
-    setSelectedProductQuantity((prevQuantity) => prevQuantity + 1)
+    setSelectedProductQuantity((prevQuantity) => {
+      onUpdateQuantity(productName, 1)
+      return prevQuantity + 1
+    })
   }
 
   const handleDecrement = () => {
     setSelectedProductQuantity((prevQuantity) => {
-      const newQuantity = prevQuantity - 1
-      if (newQuantity === 0) {
-        setIsSelectedDessert(false)
-      }
-      return newQuantity
+      if (prevQuantity - 1 === 0) setIsSelectedDessert(false)
+      onUpdateQuantity(productName, -1)
+      return prevQuantity - 1
     })
   }
 
@@ -69,12 +79,16 @@ export const ProductItem = ({
   return (
     <>
       <div
-        className={`flex flex-col justify-center font-redhat bg-white rounded-xl p-4 mb-5 ${
+        className={`flex flex-col justify-center font-redhat bg-white rounded-xl p-4 ${
           isSelectedDessert ? "border-2 border-custom-red" : ""
         }`}
       >
         <div className="relative flex flex-col items-center mb-10">
-          <img src={imageSrc} alt={`${productName} image`} />
+          <img
+            src={imageSrc}
+            alt={`${productName} image`}
+            className="rounded-xl"
+          />
           <div className="absolute bottom-[-20px]">
             {isSelectedDessert ? (
               <div className="flex flex-row justify-around items-center gap-2 border border-custom-rose-500 w-40 h-10 bg-custom-red rounded-3xl">
@@ -129,17 +143,12 @@ export const ProductItem = ({
           </div>
         </div>
 
-        <div className="flex flex-col justify-center items-start gap-0">
+        <div className="flex flex-col justify-center items-start">
           <p className="text-custom-rose-500">{productCategory}</p>
           <p className="text-custom-rose-900 font-semibold">{productName}</p>
           <p className="text-custom-red font-semibold">{`$ ${formattedProductPrice}`}</p>
         </div>
       </div>
-      {/* {isSelectedDessert ? (
-        <SelectedProductCart onCart={onCart} />
-      ) : (
-        <EmptyCart />
-      )} */}
     </>
   )
 }

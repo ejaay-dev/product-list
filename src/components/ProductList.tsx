@@ -14,12 +14,12 @@ interface Product {
   }
 }
 
-export const ProductList = () => {
+export const ProductList = ({ onAddToCart, onUpdateQuantity }: any) => {
   const [products, setProducts] = useState<Product[]>([])
   const [error, setError] = useState<string>("")
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const url = "http://localhost:3030/desserts"
+  const url = "https://json-server-deployment-iota.vercel.app/desserts"
 
   // This block of code is for fetching the products from the json API
   useEffect(() => {
@@ -43,21 +43,30 @@ export const ProductList = () => {
 
   return (
     <>
-      <div className="m-6">
-        {isLoading && <p>Fetching products...</p>}
-        {error && <p className="text-red-500">{error}</p>}
-        <ul>
-          {products.map((product) => (
-            <li key={product.id}>
-              <ProductItem
-                productImage={product.image}
-                productCategory={product.category}
-                productName={product.name}
-                productPrice={product.price}
-              />
-            </li>
-          ))}
-        </ul>
+      <div className="flex flex-col gap-4 md:w-[600px] lg:w-[700px] xl:w-[900px]">
+        <div className="flex flex-row justify-start items-center">
+          <h1 className="font-redhat font-semibold text-3xl text-custom-rose-900">
+            Desserts
+          </h1>
+        </div>
+        <div className="flex flex-col justify-center items-center">
+          {isLoading && <p>Fetching products...</p>}
+          {error && <p className="text-red-500">{error}</p>}
+          <ul className="md:grid md:grid-cols-2 lg:grid lg:grid-cols-3 gap-4">
+            {products.map((product) => (
+              <li key={product.id} className="mb-4 last:mb-0">
+                <ProductItem
+                  productImage={product.image}
+                  productCategory={product.category}
+                  productName={product.name}
+                  productPrice={product.price}
+                  onAddToCart={onAddToCart}
+                  onUpdateQuantity={onUpdateQuantity}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   )

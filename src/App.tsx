@@ -1,19 +1,68 @@
+import { useState } from "react"
 import { EmptyCart } from "./components/EmptyCart"
-import { PageLabel } from "./components/PageLabel"
 import { ProductList } from "./components/ProductList"
 
 function App() {
+  const [productCart, setProductCart] = useState<
+    { productName: string; productPrice: number; quantity: number }[]
+  >([])
+
+  const handleAddToCart = (product: {
+    productName: string
+    productPrice: number
+    quantity: number
+  }) => {
+    setProductCart((prevCart) => {
+      const existingProduct = prevCart.find(
+        (item) => item.productName === product.productName
+      )
+      if (existingProduct) {
+        return prevCart.map((item) =>
+          item.productName === product.productName
+            ? { ...item, quantity: item.quantity + product.quantity }
+            : item
+        )
+      } else {
+        return [...prevCart, product]
+      }
+    })
+  }
+
+  const handleUpdateQuantity = (productName: string, quantity: number) => {
+    setProductCart((prevCart) =>
+      prevCart
+        .map((item) =>
+          item.productName === productName
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    )
+  }
   return (
     <>
-      <main className="w-screen h-screen bg-custom-rose-100 flex flex-col">
-        <section>
-          <PageLabel pageLabel="Desserts" />
-        </section>
-        <section>
-          <EmptyCart />
-        </section>
-        <section className="flex-1 overflow-y-auto">
-          <ProductList />
+      <main className="w-screen h-screen bg-custom-rose-100 overflow-y-auto">
+        <section className="flex flex-col gap-6 items-center justify-center ml-6 mr-6 mt-12 mb-12 lg:flex-row lg:justify-center lg:items-start lg:gap-6">
+          <article>
+            <ProductList
+              onAddToCart={handleAddToCart}
+              onUpdateQuantity={handleUpdateQuantity}
+            />
+          </article>
+          <aside className="w-full md:w-[600px] lg:w-[200px] xl:w-[400px]">
+            {productCart.length > 0 ? (
+              <ul>
+                {productCart.map((item) => (
+                  <li key={item.productName}>
+                    <strong>{item.productName}</strong> - {item.quantity} x $
+                    {item.productPrice}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <EmptyCart />
+            )}
+          </aside>
         </section>
       </main>
     </>

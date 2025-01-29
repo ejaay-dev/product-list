@@ -5,14 +5,29 @@ interface SelectedItemProps {
     selectedProductQuantity: number
     selectedProductPrice: number
   }
+  onRemoveItem: (productId: string) => void
 }
 
-export const SelectedProductItem = ({ onCart }: SelectedItemProps) => {
-  const { selectedProductName, selectedProductPrice, selectedProductQuantity } =
-    onCart
+export const SelectedProductItem = ({
+  onCart,
+  onRemoveItem,
+}: SelectedItemProps) => {
+  //
+  // Destructure the onCart Props
+  const {
+    selectedProductId,
+    selectedProductName,
+    selectedProductPrice,
+    selectedProductQuantity,
+  } = onCart
 
+  // Compute the selected item price to the number of quantity
   const selectedItemTotal = selectedProductPrice * selectedProductQuantity
+
+  // Format the items total to two decimal places
   const selectedItemFormattedTotal = selectedItemTotal.toFixed(2)
+
+  // // Format the product price to two decimal places
   const selectedProductFormattedPrice = selectedProductPrice.toFixed(2)
 
   return (
@@ -22,7 +37,13 @@ export const SelectedProductItem = ({ onCart }: SelectedItemProps) => {
           <p className="text-custom-rose-900 font-semibold">
             {selectedProductName}
           </p>
-          <div className="flex justify-center items-center border-custom-rose-400 border rounded-full h-5 w-5 mt-3 hover:invert">
+          <div
+            onClick={() => {
+              // console.log(`Removing item with ID: ${selectedProductId}`)
+              onRemoveItem(selectedProductId)
+            }}
+            className="flex justify-center items-center border-custom-rose-400 border rounded-full h-5 w-5 mt-3 hover:invert"
+          >
             <img src="/assets/images/icon-remove-item.svg" alt="Remove Item" />
           </div>
         </div>

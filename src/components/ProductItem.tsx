@@ -14,20 +14,24 @@ interface ProductItemProps {
   productPrice: number
   productImage: ProductImage
   onAddToCart: (product: {
+    productId: string
     productName: string
     productPrice: number
     quantity: number
   }) => void
   onUpdateQuantity: (productName: string, quantity: number) => void
+  isInCart: boolean
 }
 
 export const ProductItem = ({
+  productId,
   productName,
   productCategory,
   productPrice,
   productImage,
   onAddToCart,
   onUpdateQuantity,
+  isInCart,
 }: ProductItemProps) => {
   const [isSelectedDessert, setIsSelectedDessert] = useState<boolean>(false)
   const [selectedProductQuantity, setSelectedProductQuantity] =
@@ -45,7 +49,10 @@ export const ProductItem = ({
   const handleAddToCart = () => {
     setIsSelectedDessert(true)
     setSelectedProductQuantity(1)
-    onAddToCart({ productName, productPrice, quantity: 1 })
+    onAddToCart({ productId, productName, productPrice, quantity: 1 })
+    // console.log(
+    //   `Adding product to cart: ${productId}, ${productName}, ${productPrice}`
+    // )
     // console.log(`Selected Product: ${productName}`)
     // console.log({ productName, productCategory, productPrice, imageSrc })
   }
@@ -71,7 +78,7 @@ export const ProductItem = ({
     <>
       <div
         className={`flex flex-col justify-center font-redhat bg-white rounded-xl p-4 ${
-          isSelectedDessert ? "border-2 border-custom-red" : ""
+          isSelectedDessert && isInCart ? "border-2 border-custom-red" : ""
         }`}
       >
         <div className="relative flex flex-col items-center mb-10">
@@ -81,7 +88,7 @@ export const ProductItem = ({
             className="rounded-xl"
           />
           <div className="absolute bottom-[-20px]">
-            {isSelectedDessert ? (
+            {isSelectedDessert && isInCart ? (
               <div className="flex flex-row justify-around items-center gap-2 border border-custom-rose-500 w-40 h-10 bg-custom-red rounded-3xl">
                 <div onClick={handleDecrement}>
                   <svg
@@ -118,17 +125,19 @@ export const ProductItem = ({
                 </div>
               </div>
             ) : (
-              <div
-                onClick={handleAddToCart}
-                className="flex flex-row justify-center items-center gap-2 border border-custom-rose-500 hover:border-custom-red w-40 h-10 bg-white rounded-3xl"
-              >
-                <img
-                  src="/assets/images/icon-add-to-cart.svg"
-                  alt="Add to Cart"
-                />
-                <p className="font-medium text-custom-rose-900 hover:text-custom-red">
-                  Add to Cart
-                </p>
+              <div className="group w-40 h-10 rounded-3xl">
+                <div
+                  onClick={handleAddToCart}
+                  className="w-full h-full flex flex-row justify-center items-center gap-2 border border-custom-rose-500 group-hover:border-custom-red bg-white rounded-3xl"
+                >
+                  <img
+                    src="/assets/images/icon-add-to-cart.svg"
+                    alt="Add to Cart"
+                  />
+                  <p className="font-medium text-custom-rose-900 group-hover:text-custom-red ">
+                    Add to Cart
+                  </p>
+                </div>
               </div>
             )}
           </div>

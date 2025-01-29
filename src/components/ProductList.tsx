@@ -14,7 +14,27 @@ interface Product {
   }
 }
 
-export const ProductList = ({ onAddToCart, onUpdateQuantity }: any) => {
+interface ProductListProps {
+  onAddToCart: (product: {
+    productId: string
+    productName: string
+    productPrice: number
+    quantity: number
+  }) => void
+  onUpdateQuantity: (productName: string, quantity: number) => void
+  productCart: {
+    productId: string
+    productName: string
+    productPrice: number
+    quantity: number
+  }[]
+}
+
+export const ProductList = ({
+  onAddToCart,
+  onUpdateQuantity,
+  productCart,
+}: ProductListProps) => {
   const [products, setProducts] = useState<Product[]>([])
   const [error, setError] = useState<string>("")
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -53,19 +73,25 @@ export const ProductList = ({ onAddToCart, onUpdateQuantity }: any) => {
           {isLoading && <p>Fetching products...</p>}
           {error && <p className="text-red-500">{error}</p>}
           <ul className="md:grid md:grid-cols-2 lg:grid lg:grid-cols-3 gap-4">
-            {products.map((product) => (
-              <li key={product.id} className="mb-4 last:mb-0">
-                <ProductItem
-                  productId={product.id}
-                  productImage={product.image}
-                  productCategory={product.category}
-                  productName={product.name}
-                  productPrice={product.price}
-                  onAddToCart={onAddToCart}
-                  onUpdateQuantity={onUpdateQuantity}
-                />
-              </li>
-            ))}
+            {products.map((product) => {
+              const isInCart = productCart.some(
+                (item) => item.productId === product.id
+              )
+              return (
+                <li key={product.id} className="mb-4 last:mb-0">
+                  <ProductItem
+                    productId={product.id}
+                    productImage={product.image}
+                    productCategory={product.category}
+                    productName={product.name}
+                    productPrice={product.price}
+                    onAddToCart={onAddToCart}
+                    onUpdateQuantity={onUpdateQuantity}
+                    isInCart={isInCart}
+                  />
+                </li>
+              )
+            })}
           </ul>
         </div>
       </div>

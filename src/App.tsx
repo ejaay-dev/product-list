@@ -19,6 +19,7 @@ function App() {
     productPrice: number
     quantity: number
   }) => {
+    // console.log("Adding to cart:", product)
     setProductCart((prevCart) => {
       const existingProduct = prevCart.find(
         (item) => item.productName === product.productName
@@ -46,6 +47,20 @@ function App() {
         .filter((item) => item.quantity > 0)
     )
   }
+
+  // Function to remove item from the cart
+  const handleRemoveItem = (productId: string) => {
+    // console.log(`Removing item with ID: ${productId}`)
+    setProductCart((prevCart) => {
+      // console.log("Current cart:", prevCart)
+      const updatedCart = prevCart.filter(
+        (item) => item.productId !== productId
+      )
+      // console.log("Updated Cart:", updatedCart)
+      return updatedCart
+      // prevCart.filter((item) => item.productId !== productId)}
+    })
+  }
   return (
     <>
       <main className="w-screen h-screen bg-custom-rose-100 overflow-y-auto">
@@ -54,11 +69,15 @@ function App() {
             <ProductList
               onAddToCart={handleAddToCart}
               onUpdateQuantity={handleUpdateQuantity}
+              productCart={productCart}
             />
           </article>
           <aside className="w-full md:w-[600px] lg:w-[200px] xl:w-[400px]">
             {productCart.length > 0 ? (
-              <SelectedProductCart productCart={productCart} />
+              <SelectedProductCart
+                productCart={productCart}
+                onRemoveItem={handleRemoveItem}
+              />
             ) : (
               <EmptyCart />
             )}

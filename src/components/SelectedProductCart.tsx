@@ -1,17 +1,22 @@
 import { SelectedProductItem } from "./SelectedProductItem"
 
+interface CartItem {
+  productId: string
+  productName: string
+  productPrice: number
+  quantity: number
+}
+
 interface SelectedProductCartProps {
-  productCart: {
-    productId: string
-    productName: string
-    productPrice: number
-    quantity: number
-  }[]
+  productCart: CartItem[]
+  onRemoveItem: (productId: string) => void
 }
 
 export const SelectedProductCart = ({
   productCart,
+  onRemoveItem,
 }: SelectedProductCartProps) => {
+  //
   // Computation for the cart total quantity
   const cartTotal = productCart.reduce(
     (length, item) => length + item.quantity,
@@ -45,6 +50,7 @@ export const SelectedProductCart = ({
                 selectedProductPrice: item.productPrice,
                 selectedProductQuantity: item.quantity,
               }}
+              onRemoveItem={onRemoveItem}
             />
           ))}
         </div>

@@ -1,12 +1,4 @@
-interface SelectedItemProps {
-  onCart: {
-    selectedProductId: string
-    selectedProductName: string
-    selectedProductQuantity: number
-    selectedProductPrice: number
-  }
-  onRemoveItem: (productId: string) => void
-}
+import { SelectedItemProps } from "../types/SelectedProductItem.types"
 
 export const SelectedProductItem = ({
   onCart,

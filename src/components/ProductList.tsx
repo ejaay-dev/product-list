@@ -1,41 +1,13 @@
 import { useEffect, useState } from "react"
 import { ProductItem } from "./ProductItem"
-
-interface Product {
-  id: string
-  name: string
-  category: string
-  price: number
-  image: {
-    thumbnail: string
-    mobile: string
-    tablet: string
-    desktop: string
-  }
-}
-
-interface ProductListProps {
-  onAddToCart: (product: {
-    productId: string
-    productName: string
-    productPrice: number
-    quantity: number
-  }) => void
-  onUpdateQuantity: (productName: string, quantity: number) => void
-  productCart: {
-    productId: string
-    productName: string
-    productPrice: number
-    quantity: number
-  }[]
-}
+import { ProductProps, ProductListProps } from "../types/ProductList.types"
 
 export const ProductList = ({
   onAddToCart,
   onUpdateQuantity,
   productCart,
 }: ProductListProps) => {
-  const [products, setProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<ProductProps[]>([])
   const [error, setError] = useState<string>("")
   const [isLoading, setIsLoading] = useState<boolean>(false)
 

@@ -1,27 +1,5 @@
 import { useState } from "react"
-
-interface ProductImage {
-  thumbnail: string
-  mobile: string
-  tablet: string
-  desktop: string
-}
-
-interface ProductItemProps {
-  productId: string
-  productName: string
-  productCategory: string
-  productPrice: number
-  productImage: ProductImage
-  onAddToCart: (product: {
-    productId: string
-    productName: string
-    productPrice: number
-    quantity: number
-  }) => void
-  onUpdateQuantity: (productName: string, quantity: number) => void
-  isInCart: boolean
-}
+import { ProductImageProps, ProductItemProps } from "../types/ProductItem.types"
 
 export const ProductItem = ({
   productId,
@@ -37,7 +15,7 @@ export const ProductItem = ({
   const [selectedProductQuantity, setSelectedProductQuantity] =
     useState<number>(0)
 
-  const getImageByScreenSize = (image: ProductImage) => {
+  const getImageByScreenSize = (image: ProductImageProps) => {
     const screenWidth = window.innerWidth
     if (screenWidth < 768) return image.mobile
     if (screenWidth < 1024) return image.tablet

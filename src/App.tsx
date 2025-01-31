@@ -2,6 +2,7 @@ import { useState } from "react"
 import { EmptyCart } from "./components/EmptyCart"
 import { ProductList } from "./components/ProductList"
 import { SelectedProductCart } from "./components/SelectedProductCart"
+import { ProductImageProps } from "./types/Product"
 
 function App() {
   const [productCart, setProductCart] = useState<
@@ -10,6 +11,7 @@ function App() {
       productName: string
       productPrice: number
       quantity: number
+      image: ProductImageProps
     }[]
   >([])
 
@@ -18,6 +20,7 @@ function App() {
     productName: string
     productPrice: number
     quantity: number
+    image: ProductImageProps
   }) => {
     // console.log("Adding to cart:", product)
     setProductCart((prevCart) => {

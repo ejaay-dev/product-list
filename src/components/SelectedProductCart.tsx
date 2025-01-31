@@ -1,11 +1,16 @@
 import { SelectedProductItem } from "./SelectedProductItem"
 import { SelectedProductCartProps } from "../types/Product"
+import { ConfirmedOrder } from "./ConfirmedOrder"
+import { useState } from "react"
 
 export const SelectedProductCart = ({
   productCart,
   onRemoveItem,
 }: SelectedProductCartProps) => {
-  //
+  // Order confirmation modal
+  const [showConfirmationModal, setShowConfirmationModal] =
+    useState<boolean>(false)
+
   // Computation for the cart total quantity
   const cartTotal = productCart.reduce(
     (length, item) => length + item.quantity,
@@ -21,6 +26,12 @@ export const SelectedProductCart = ({
   // Format to two decimal places
   const formattedTotal = ordersTotal.toFixed(2)
 
+  // Function to handle the confirm order button
+  const handleConfirmOrder = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    setShowConfirmationModal(true)
+  }
+
   return (
     <>
       <div className="flex flex-col justify-center font-redhat bg-white rounded-xl p-6 shadow">
@@ -29,7 +40,7 @@ export const SelectedProductCart = ({
             Your Cart ({cartTotal})
           </p>
         </div>
-        <div className="flex flex-col mb-10">
+        <div className="flex flex-col mb-10 overflow-y-auto h-40">
           {productCart.map((item) => (
             <SelectedProductItem
               key={item.productId}
@@ -60,9 +71,17 @@ export const SelectedProductCart = ({
             delivery
           </p>
         </div>
-        <div className="h-14 w-full flex flex-row justify-center items-center bg-custom-red rounded-4xl hover:bg-[#962C0C]">
-          <p className="text-custom-rose-100 font-medium">Confirm Order</p>
-        </div>
+        <button
+          onClick={handleConfirmOrder}
+          className="h-14 w-full flex flex-row justify-center items-center bg-custom-red rounded-4xl hover:bg-[#962C0C]"
+        >
+          <span className="text-custom-rose-100 font-medium">
+            Confirm Order
+          </span>
+        </button>
+        {showConfirmationModal && (
+          <ConfirmedOrder confirmedOrder={productCart} />
+        )}
       </div>
     </>
   )

@@ -34,6 +34,7 @@ export const ProductItem = ({
       productName: name,
       productPrice: price,
       quantity: 1,
+      image,
     })
     // console.log(
     //   `Adding product to cart: ${productId}, ${productName}, ${productPrice}`

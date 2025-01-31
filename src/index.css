@@ -13,4 +13,5 @@
   --color-custom-rose-400: hsl(7, 20%, 60%);
   --color-custom-rose-500: hsl(12, 20%, 44%);
   --color-custom-rose-900: hsl(14, 65%, 9%);
+  --color-custom-black-50: hsl(0, 0%, 0%, 0.5);
 }

@@ -17,12 +17,13 @@ export interface ProductImageProps {
 }
 
 // Cart item interface
-// Used across multiple components (ProductListProps, ProductItemProps, SelectedProductCartProps)
+// Used across multiple components (ProductListProps, ProductItemProps, SelectedProductCartProps, ConfirmedOrderProps)
 export interface CartItemProps {
   productId: string
   productName: string
   productPrice: number
   quantity: number
+  image: ProductImageProps
 }
 
 // Interfaces or Props for ProductList component (src/components/ProductList.tsx)
@@ -54,4 +55,8 @@ export interface SelectedItemProps {
     price: number
   }
   onRemoveItem: (productId: string) => void
+}
+
+export interface ConfirmedOrderProps {
+  confirmedOrder: CartItemProps[]
 }

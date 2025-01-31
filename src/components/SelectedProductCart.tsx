@@ -1,5 +1,5 @@
 import { SelectedProductItem } from "./SelectedProductItem"
-import { SelectedProductCartProps } from "../types/SelectedProductCart.types"
+import { SelectedProductCartProps } from "../types/Product"
 
 export const SelectedProductCart = ({
   productCart,
@@ -33,11 +33,11 @@ export const SelectedProductCart = ({
           {productCart.map((item) => (
             <SelectedProductItem
               key={item.productId}
-              onCart={{
-                selectedProductId: item.productId,
-                selectedProductName: item.productName,
-                selectedProductPrice: item.productPrice,
-                selectedProductQuantity: item.quantity,
+              selectedProduct={{
+                productId: item.productId,
+                productName: item.productName,
+                price: item.productPrice,
+                quantity: item.quantity,
               }}
               onRemoveItem={onRemoveItem}
             />

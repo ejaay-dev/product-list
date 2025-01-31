@@ -1,12 +1,12 @@
 import { useState } from "react"
-import { ProductImageProps, ProductItemProps } from "../types/ProductItem.types"
+import { ProductImageProps, ProductItemProps } from "../types/Product"
 
 export const ProductItem = ({
-  productId,
-  productName,
-  productCategory,
-  productPrice,
-  productImage,
+  id,
+  name,
+  category,
+  price,
+  image,
   onAddToCart,
   onUpdateQuantity,
   isInCart,
@@ -20,14 +20,21 @@ export const ProductItem = ({
     if (screenWidth < 768) return image.mobile
     if (screenWidth < 1024) return image.tablet
     if (screenWidth >= 1024) return image.desktop
+
+    return image.desktop // Fallback to desktop image
   }
 
-  const imageSrc = getImageByScreenSize(productImage)
+  const imageSrc = getImageByScreenSize(image)
 
   const handleAddToCart = () => {
     setIsSelectedDessert(true)
     setSelectedProductQuantity(1)
-    onAddToCart({ productId, productName, productPrice, quantity: 1 })
+    onAddToCart({
+      productId: id,
+      productName: name,
+      productPrice: price,
+      quantity: 1,
+    })
     // console.log(
     //   `Adding product to cart: ${productId}, ${productName}, ${productPrice}`
     // )
@@ -37,7 +44,7 @@ export const ProductItem = ({
 
   const handleIncrement = () => {
     setSelectedProductQuantity((prevQuantity) => {
-      onUpdateQuantity(productName, 1)
+      onUpdateQuantity(name, 1)
       return prevQuantity + 1
     })
   }
@@ -45,12 +52,12 @@ export const ProductItem = ({
   const handleDecrement = () => {
     setSelectedProductQuantity((prevQuantity) => {
       if (prevQuantity - 1 === 0) setIsSelectedDessert(false)
-      onUpdateQuantity(productName, -1)
+      onUpdateQuantity(name, -1)
       return prevQuantity - 1
     })
   }
 
-  const formattedProductPrice = productPrice.toFixed(2)
+  const formattedProductPrice = price.toFixed(2)
 
   return (
     <>
@@ -60,11 +67,7 @@ export const ProductItem = ({
         }`}
       >
         <div className="relative flex flex-col items-center mb-10">
-          <img
-            src={imageSrc}
-            alt={`${productName} image`}
-            className="rounded-xl"
-          />
+          <img src={imageSrc} alt={`${name} image`} className="rounded-xl" />
           <div className="absolute bottom-[-20px]">
             {isSelectedDessert && isInCart ? (
               <div className="flex flex-row justify-around items-center gap-2 border border-custom-rose-500 w-40 h-10 bg-custom-red rounded-3xl">
@@ -122,8 +125,8 @@ export const ProductItem = ({
         </div>
 
         <div className="flex flex-col justify-center items-start">
-          <p className="text-custom-rose-500">{productCategory}</p>
-          <p className="text-custom-rose-900 font-semibold">{productName}</p>
+          <p className="text-custom-rose-500">{category}</p>
+          <p className="text-custom-rose-900 font-semibold">{name}</p>
           <p className="text-custom-red font-semibold">{`$ ${formattedProductPrice}`}</p>
         </div>
       </div>

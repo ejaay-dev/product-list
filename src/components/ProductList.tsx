@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { ProductItem } from "./ProductItem"
-import { ProductProps, ProductListProps } from "../types/ProductList.types"
+import { ProductProps, ProductListProps } from "../types/Product"
 
 export const ProductList = ({
   onAddToCart,
@@ -52,11 +52,11 @@ export const ProductList = ({
               return (
                 <li key={product.id} className="mb-4 last:mb-0">
                   <ProductItem
-                    productId={product.id}
-                    productImage={product.image}
-                    productCategory={product.category}
-                    productName={product.name}
-                    productPrice={product.price}
+                    id={product.id}
+                    image={product.image}
+                    category={product.category}
+                    name={product.name}
+                    price={product.price}
                     onAddToCart={onAddToCart}
                     onUpdateQuantity={onUpdateQuantity}
                     isInCart={isInCart}

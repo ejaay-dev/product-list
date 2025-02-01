@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { EmptyCart } from "./components/EmptyCart"
 import { ProductList } from "./components/ProductList"
 import { SelectedProductCart } from "./components/SelectedProductCart"
@@ -64,6 +64,16 @@ function App() {
       // prevCart.filter((item) => item.productId !== productId)}
     })
   }
+
+  // Function to clear the cart after clicking the start new order
+  const handleClearCart = () => {
+    setProductCart([])
+  }
+
+  useEffect(() => {
+    console.log("Updated cart items:", productCart)
+  }, [productCart])
+
   return (
     <>
       <main className="w-screen h-screen bg-custom-rose-100 overflow-y-auto">
@@ -80,6 +90,7 @@ function App() {
               <SelectedProductCart
                 productCart={productCart}
                 onRemoveItem={handleRemoveItem}
+                onClearCart={handleClearCart}
               />
             ) : (
               <EmptyCart />

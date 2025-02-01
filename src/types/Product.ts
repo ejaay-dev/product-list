@@ -44,6 +44,7 @@ export interface ProductItemProps extends ProductProps {
 export interface SelectedProductCartProps {
   productCart: CartItemProps[]
   onRemoveItem: (productId: string) => void
+  onClearCart: () => void
 }
 
 // Interfaces or Props for SelectedProductItem component (src/components/SelectedProductItem.tsx)
@@ -59,4 +60,6 @@ export interface SelectedItemProps {
 
 export interface ConfirmedOrderProps {
   confirmedOrder: CartItemProps[]
+  onCloseConfirmModal: () => void
+  onClearCart: () => void
 }

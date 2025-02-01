@@ -6,6 +6,7 @@ import { useState } from "react"
 export const SelectedProductCart = ({
   productCart,
   onRemoveItem,
+  onClearCart,
 }: SelectedProductCartProps) => {
   // Order confirmation modal
   const [showConfirmationModal, setShowConfirmationModal] =
@@ -80,7 +81,13 @@ export const SelectedProductCart = ({
           </span>
         </button>
         {showConfirmationModal && (
-          <ConfirmedOrder confirmedOrder={productCart} />
+          <ConfirmedOrder
+            confirmedOrder={productCart}
+            onCloseConfirmModal={() => {
+              setShowConfirmationModal(false)
+            }}
+            onClearCart={onClearCart}
+          />
         )}
       </div>
     </>
